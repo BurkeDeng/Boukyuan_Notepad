@@ -1,4 +1,4 @@
-package com.example.notepad;
+package com.example.notepad.getdb;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * @author boukyuan
+ * 创建数据库db
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

@@ -9,7 +9,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -26,6 +25,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.notepad.getdb.DatabaseHelper;
+import com.example.notepad.getdb.GetDBData;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -39,13 +42,12 @@ public class EditContentActivity extends AppCompatActivity {
     private EditText getYearMonthDay, getHourMinuteSecond;
     private TextView tipsTitle;
     Handler myHandler;
-
-    SQLiteOpenHelper dbHelper=new DatabaseHelper(EditContentActivity.this,"test_notepad.db",null,1);
+    SQLiteOpenHelper dbHelper = new DatabaseHelper(EditContentActivity.this, "test_notepad.db", null, 1);
     SQLiteDatabase dbWritableDatabase;
-    ContentValues contentValues=new ContentValues();
+    ContentValues contentValues = new ContentValues();
 
-    String id,text,title;
-     @Override
+    String id, text, title;
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_content);
@@ -110,13 +112,13 @@ public class EditContentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //数据库实际上是没有被创建或者打开的，直到getWritableDatabase() 或者 getReadableDatabase() 方法中的一个被调用时才会进行创建或者打开
-                dbWritableDatabase=dbHelper.getWritableDatabase();
-                 // 向该对象中插入键值对  不能重复插入相同的键值对
+                dbWritableDatabase = dbHelper.getWritableDatabase();
+                // 向该对象中插入键值对  不能重复插入相同的键值对
 //                contentValues.put("id");
-                contentValues.put("text",walkEditText.getText().toString());
-                contentValues.put("title",descriptionEditText.getText().toString());
+                contentValues.put("text", walkEditText.getText().toString());
+                contentValues.put("title", descriptionEditText.getText().toString());
                 //调用insert()方法将数据插入到数据库里
-                dbWritableDatabase.insert("notepad",null,contentValues);
+                dbWritableDatabase.insert("notepad", null, contentValues);
                 System.out.println("add数据成功");
                 queryDataBase();
                 callBackInformation();
@@ -124,16 +126,22 @@ public class EditContentActivity extends AppCompatActivity {
             }
         });
     }
-    /** 回调信息*/
-    private void callBackInformation(){
-        Intent intent=new Intent();
-        Bundle bundle=new Bundle();
-        bundle.putString("id",id);
-        bundle.putString("text",text);
-        bundle.putString("title",title);
+
+    /**
+     * 回调信息
+     */
+    private void callBackInformation() {
+        System.out.println("进入回调");
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        bundle.putString("text", text);
+        bundle.putString("title", title);
         intent.putExtras(bundle);
-        setResult(Activity.RESULT_OK,intent);
+        setResult(Activity.RESULT_OK, intent);
+        System.out.println("回调成功");
     }
+
     /**
      * 根据switch来选择是否显示时间选择
      */
@@ -203,27 +211,22 @@ public class EditContentActivity extends AppCompatActivity {
         });
     }
 
-    /**复制粘贴*/
-    private void copyAndPaste(){
-        ImageView copyPaste=findViewById(R.id.two_rl_imageView2);
+    /**
+     * 复制粘贴
+     */
+    private void copyAndPaste() {
+        ImageView copyPaste = findViewById(R.id.two_rl_imageView2);
         copyPaste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
     }
 
-    /**查询数据库*/
-    private void queryDataBase(){
-        //调用SQLiteDataBase对象的query方法进行查询
-        //返回一个cursor对象：由数据库查询返回的结果集对象
-        Cursor cursor=dbWritableDatabase.query("notepad",null,null,null,null,null,null);
-        while(cursor.moveToNext()){
-             id=cursor.getString(cursor.getColumnIndex("id"));
-             text=cursor.getString(cursor.getColumnIndex("text"));
-             title=cursor.getString(cursor.getColumnIndex("title"));
-            System.out.println("id为 "+id+  "标题为  "+text + "内容为 "+ title);
-        }
+    /**
+     * 查询数据库
+     */
+    private void queryDataBase() {
+        ArrayList<ArrayList<String>> dbShow= new GetDBData().getDBData(EditContentActivity.this);
     }
 }

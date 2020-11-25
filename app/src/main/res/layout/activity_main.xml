@@ -1,89 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include layout="@layout/base_toolbar" android:id="@+id/home_page_toolBar"/>
-   <LinearLayout
-       android:visibility="visible"
-       android:id="@+id/home_page_linearLayout"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical"
-       android:layout_centerInParent="true"
-       android:gravity="center_horizontal">
-       <ImageView
-           android:layout_width="200dp"
-           android:layout_height="200dp"
-           android:background="@drawable/empty_view_bg"/>
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="15dp"
-           android:text="You don't have any notepad"
-           android:textSize="25sp"
-           android:textAllCaps="false"
-           android:textColor="#A1A1A1" />
-   </LinearLayout>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/main_cardView"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:cardCornerRadius="15dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_below="@id/home_page_toolBar"
-        android:layout_marginTop="15dp">
-        <RelativeLayout
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/home_page_toolBar" layout="@layout/base_toolbar" />
+
+    <LinearLayout
+        android:id="@+id/home_page_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/empty_view_bg"
+            tools:ignore="ContentDescription" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical">
-            <Button
-                android:layout_centerVertical="true"
-                android:id="@+id/card_button"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/content_border"
-                android:layout_marginStart="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
-                android:textSize="25sp"
-                android:textColor="#00FF33"/>
-           <LinearLayout
-               android:layout_toRightOf="@id/card_button"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-               android:gravity="center_vertical"
-               android:layout_centerVertical="true"
-               android:layout_toEndOf="@id/card_button">
-               <TextView
-                   android:id="@+id/card_text"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="18sp"
-                   android:textColor="#444444"/>
-               <TextView
-                   android:id="@+id/card_title"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="16sp"
-                   android:textColor="#CCCCCC" />
-           </LinearLayout>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+            android:layout_marginTop="15dp"
+            android:text="You don't have any notepad"
+            android:textAllCaps="false"
+            android:textColor="#A1A1A1"
+            android:textSize="25sp" />
+    </LinearLayout>
+    <ListView
+        android:layout_below="@id/home_page_toolBar"
+        android:id="@+id/listView_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <ImageButton
         android:id="@+id/home_page_button"
-        android:src="@drawable/ic_add_white_24dp"
-        android:scaleType="fitCenter"
-        android:padding="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/add_button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="35dp"
-        android:layout_alignParentEnd="true" />
+        android:background="@drawable/add_button"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_add_white_24dp" />
 </RelativeLayout>
