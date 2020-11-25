@@ -67,10 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("回调的id为  " + data.getExtras().getString("id"));
-        System.out.println("回调的标题为  " + data.getExtras().getString("text"));
-        System.out.println("回调的内容为  " + data.getExtras().getString("title"));
-
+        assert data != null;
         mainId = data.getExtras().getString("id");
         mainText = data.getExtras().getString("text");
         mainTitle = data.getExtras().getString("title");
