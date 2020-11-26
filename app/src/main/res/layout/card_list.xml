@@ -4,6 +4,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    app:mode="same_level"
+    app:dragEdge="right">
+    <Button
+        android:id="@+id/card_delete"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:textColor="#FF0033"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="删除"
+        android:background="@drawable/slide_delete_color"/>
     <androidx.cardview.widget.CardView
         android:id="@+id/main_cardView"
         android:layout_width="match_parent"
@@ -52,4 +66,6 @@
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>
 </LinearLayout>

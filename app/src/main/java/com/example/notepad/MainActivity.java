@@ -19,7 +19,6 @@ import com.example.notepad.getdb.GetDBData;
 import java.util.ArrayList;
 
 
-
 /**
  * @author boukyuan
  */
@@ -99,16 +98,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         System.out.println(">>>>>>>>>>>>>>>>onResume<<<<<<<<<<<<<<<<<");
-        LinearLayout linearLayout=findViewById(R.id.home_page_linearLayout);
+        LinearLayout linearLayout = findViewById(R.id.home_page_linearLayout);
         ArrayList<ArrayList<String>> arrayLists = null;
         try {
             GetDBData getDBData = new GetDBData();
             arrayLists = getDBData.getDBData(MainActivity.this);
-            ListView listViewCard=findViewById(R.id.listView_card);
-            listViewCard.setAdapter(new CardAdapter(MainActivity.this,arrayLists));
-        }catch (Exception e){
-            System.out.println("出错了"+e);
+            ListView listViewCard = findViewById(R.id.listView_card);
+            listViewCard.setAdapter(new CardAdapter(MainActivity.this, arrayLists));
+        } catch (Exception e) {
+            System.out.println("出错了" + e);
         }
-        linearLayout.setVisibility(arrayLists.size()>0?View.GONE:View.VISIBLE);
+        linearLayout.setVisibility(arrayLists.size() > 0 ? View.GONE : View.VISIBLE);
     }
 }

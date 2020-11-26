@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  * @author boukyuan
  * 封装查询数据库db
+ * 删除数据
  */
 public class GetDBData {
 
@@ -17,7 +18,7 @@ public class GetDBData {
     SQLiteDatabase dbWritableDatabase;
     String id, text, title;
     ArrayList<ArrayList<String>> arrayList = new ArrayList();
-
+    /**查询*/
     public ArrayList<ArrayList<String>> getDBData(Context context) {
         dbHelper = new DatabaseHelper(context, "test_notepad.db", null, 1);
         dbWritableDatabase = dbHelper.getWritableDatabase();
@@ -37,4 +38,10 @@ public class GetDBData {
         cursor.close();
         return arrayList;
     }
+    /**删除数据*/
+  public void deleteData(Context context,String id){
+        dbHelper=new DatabaseHelper(context,"test_notepad.db",null,1);
+        dbWritableDatabase=dbHelper.getWritableDatabase();
+        dbWritableDatabase.delete("notepad","id=?",new String[]{id});
+  }
 }

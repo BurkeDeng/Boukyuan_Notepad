@@ -76,16 +76,6 @@ public class EditContentActivity extends AppCompatActivity {
     }
 
     /**
-     * 重新加载布局
-     */
-    public void refresh() {
-        Intent intent = getIntent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        startActivity(intent);
-    }
-
-    /**
      * 线程刷新 方法只能调用在类onCreate的地方
      */
     private void threadRefresh(String time) {
@@ -102,7 +92,7 @@ public class EditContentActivity extends AppCompatActivity {
     }
 
     /**
-     * 获取输入框的文字并发送过去
+     * 获取输入框的文字并发送过去 并创建数据库
      */
     private void titleMethod() {
         EditText walkEditText = findViewById(R.id.write_editText);
@@ -114,12 +104,10 @@ public class EditContentActivity extends AppCompatActivity {
                 //数据库实际上是没有被创建或者打开的，直到getWritableDatabase() 或者 getReadableDatabase() 方法中的一个被调用时才会进行创建或者打开
                 dbWritableDatabase = dbHelper.getWritableDatabase();
                 // 向该对象中插入键值对  不能重复插入相同的键值对
-//                contentValues.put("id");
                 contentValues.put("text", walkEditText.getText().toString());
                 contentValues.put("title", descriptionEditText.getText().toString());
                 //调用insert()方法将数据插入到数据库里
                 dbWritableDatabase.insert("notepad", null, contentValues);
-                System.out.println("add数据成功");
                 queryDataBase();
                 callBackInformation();
                 finish();
