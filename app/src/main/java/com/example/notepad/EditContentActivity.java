@@ -24,10 +24,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.notepad.getdb.DatabaseHelper;
 import com.example.notepad.getdb.GetDBData;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -37,16 +39,17 @@ import java.util.Calendar;
  */
 public class EditContentActivity extends AppCompatActivity {
     private int yearTime, monthTime, dayTime, hourOfDayTime, minuteTime;
+    private int nowTimeYear, nowTimeMonth, nowTimeDay, nowTimeHour, nowTimeMinute,nowTimeSecond;
     String inTheAfternoon;
     Calendar calendar = Calendar.getInstance();
-    private EditText getYearMonthDay, getHourMinuteSecond;
+    private EditText getYearMonthDay, getHourMinuteSecond,walkEditText,descriptionEditText;
     private TextView tipsTitle;
     Handler myHandler;
     SQLiteOpenHelper dbHelper = new DatabaseHelper(EditContentActivity.this, "test_notepad.db", null, 1);
     SQLiteDatabase dbWritableDatabase;
     ContentValues contentValues = new ContentValues();
-
     String id, text, title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class EditContentActivity extends AppCompatActivity {
         clear();
         titleMethod();
         alarmClockMethod();
+        getNowTime();
         selectYearMonthDay();
         selectHourMinuteSecond();
         copyAndPaste();
@@ -79,7 +83,7 @@ public class EditContentActivity extends AppCompatActivity {
      * 线程刷新 方法只能调用在类onCreate的地方
      */
     private void threadRefresh(String time) {
-        //              myHandler.sendEmptyMessage(0);在点击处调用
+        // myHandler.sendEmptyMessage(0);在点击处调用
         myHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -95,22 +99,28 @@ public class EditContentActivity extends AppCompatActivity {
      * 获取输入框的文字并发送过去 并创建数据库
      */
     private void titleMethod() {
-        EditText walkEditText = findViewById(R.id.write_editText);
-        EditText descriptionEditText = findViewById(R.id.write_editText2);
+        walkEditText = findViewById(R.id.write_editText);
+        descriptionEditText = findViewById(R.id.write_editText2);
         ImageButton yellowImageButton = findViewById(R.id.yellow_image_button);
         yellowImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //数据库实际上是没有被创建或者打开的，直到getWritableDatabase() 或者 getReadableDatabase() 方法中的一个被调用时才会进行创建或者打开
-                dbWritableDatabase = dbHelper.getWritableDatabase();
-                // 向该对象中插入键值对  不能重复插入相同的键值对
-                contentValues.put("text", walkEditText.getText().toString());
-                contentValues.put("title", descriptionEditText.getText().toString());
-                //调用insert()方法将数据插入到数据库里
-                dbWritableDatabase.insert("notepad", null, contentValues);
-                queryDataBase();
-                callBackInformation();
-                finish();
+                if (walkEditText.getText().length()>=1&&descriptionEditText.getText().length()>=1){
+                    //数据库实际上是没有被创建或者打开的，直到getWritableDatabase() 或者 getReadableDatabase() 方法中的一个被调用时才会进行创建或者打开
+                    dbWritableDatabase = dbHelper.getWritableDatabase();
+                    // 向该对象中插入键值对  不能重复插入相同的键值对
+                    contentValues.put("text", walkEditText.getText().toString());
+                    contentValues.put("title", descriptionEditText.getText().toString());
+                    //调用insert()方法将数据插入到数据库里
+                    dbWritableDatabase.insert("notepad", null, contentValues);
+                    queryDataBase();
+                    callBackInformation();
+                    finish();
+                }else{
+                    walkEditText.getText().clear();
+                    descriptionEditText.getText().clear();
+                    Toast.makeText(EditContentActivity.this,"标题和内容都不得为空",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -142,6 +152,18 @@ public class EditContentActivity extends AppCompatActivity {
                 visibility.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
             }
         });
+    }
+
+    /**
+     * 获取系统当前时间
+     */
+    private void getNowTime() {
+        nowTimeYear = calendar.get(Calendar.YEAR);
+        nowTimeMonth = calendar.get(Calendar.MONTH) + 1;
+        nowTimeDay = calendar.get(Calendar.DAY_OF_MONTH);
+        nowTimeHour = calendar.get(Calendar.HOUR_OF_DAY);
+        nowTimeMinute = calendar.get(Calendar.MINUTE);
+        nowTimeSecond=calendar.get(Calendar.SECOND);
     }
 
     /**
@@ -191,8 +213,27 @@ public class EditContentActivity extends AppCompatActivity {
                         getHourMinuteSecond.setText(hourOfDay + ":" + minute + " " + inTheAfternoon);
                         getHourMinuteSecond.setTextColor(0xffFFC107);
                         getHourMinuteSecond.setTextSize(25);
-
-                        tipsTitle.setText("设置的提醒时间为" + " " + yearTime + "-" + (monthTime + 1) + "-" + dayTime + "  " + hourOfDay + ":" + minute + "  " + inTheAfternoon);
+                        String setTheTime = "设置的提醒时间为" + " " + yearTime + "-" + (monthTime + 1) + "-" + dayTime + "  " + hourOfDay + ":" + minute + "  " + inTheAfternoon;
+                        String outdatedTips="你选择的时间已逝去，请选择还未曾来到的时光";
+                        if(yearTime>=nowTimeYear&&(monthTime+1)>=nowTimeMonth&&dayTime>=nowTimeDay){
+                            if (dayTime==nowTimeDay){
+                                if(hourOfDay>nowTimeHour){
+                                    tipsTitle.setText(setTheTime);
+                                }else  if (hourOfDay==nowTimeHour){
+                                    if (minute>nowTimeMinute){
+                                        tipsTitle.setText(setTheTime);
+                                    }else{
+                                        tipsTitle.setText(outdatedTips);
+                                    }
+                                } else{
+                                    tipsTitle.setText(outdatedTips);
+                                }
+                            }else if (dayTime>nowTimeDay){
+                                tipsTitle.setText(setTheTime);
+                            }
+                        }else {
+                            tipsTitle.setText(outdatedTips);
+                        }
                     }
                 }, hourOfDayTime, minuteTime, false).show();
             }
@@ -215,6 +256,6 @@ public class EditContentActivity extends AppCompatActivity {
      * 查询数据库
      */
     private void queryDataBase() {
-        ArrayList<ArrayList<String>> dbShow= new GetDBData().getDBData(EditContentActivity.this);
+        ArrayList<ArrayList<String>> dbShow = new GetDBData().getDBData(EditContentActivity.this);
     }
 }

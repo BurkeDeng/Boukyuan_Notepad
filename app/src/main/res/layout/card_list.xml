@@ -8,7 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     app:mode="same_level"
-    app:dragEdge="right">
+    app:dragEdge="right"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginTop="15dp">
     <Button
         android:id="@+id/card_delete"
         android:layout_width="100dp"
@@ -22,8 +24,6 @@
         android:id="@+id/main_cardView"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="15dp"
         android:visibility="visible"
         app:cardCornerRadius="15dp">
         <RelativeLayout
