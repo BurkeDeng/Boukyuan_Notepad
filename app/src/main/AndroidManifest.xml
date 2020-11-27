@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".AboutWorksActivity"></activity>
         <activity android:name=".EditContentActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

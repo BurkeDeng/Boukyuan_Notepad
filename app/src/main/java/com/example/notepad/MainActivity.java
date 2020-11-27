@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("点击了home_page_toolBar_icon");
                 break;
             case R.id.home_page_toolBar_icon2:
+                Intent intent=new Intent(MainActivity.this,AboutWorksActivity.class);
+                startActivity(intent);
                 break;
             default:
         }
