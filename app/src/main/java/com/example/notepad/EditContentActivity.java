@@ -105,7 +105,7 @@ public class EditContentActivity extends AppCompatActivity {
         yellowImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (walkEditText.getText().length()>=1&&descriptionEditText.getText().length()>=1){
+                if (walkEditText.getText().length()>=1){
                     //数据库实际上是没有被创建或者打开的，直到getWritableDatabase() 或者 getReadableDatabase() 方法中的一个被调用时才会进行创建或者打开
                     dbWritableDatabase = dbHelper.getWritableDatabase();
                     // 向该对象中插入键值对  不能重复插入相同的键值对
@@ -117,9 +117,8 @@ public class EditContentActivity extends AppCompatActivity {
                     callBackInformation();
                     finish();
                 }else{
-                    walkEditText.getText().clear();
                     descriptionEditText.getText().clear();
-                    Toast.makeText(EditContentActivity.this,"标题和内容都不得为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditContentActivity.this,"标题不得为空",Toast.LENGTH_SHORT).show();
                 }
             }
         });

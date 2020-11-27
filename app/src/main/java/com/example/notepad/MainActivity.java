@@ -2,10 +2,13 @@ package com.example.notepad;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +26,6 @@ import java.util.ArrayList;
  * @author boukyuan
  */
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,21 +35,25 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_page_menu, menu);
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.home_page_toolBar_icon) {
-            System.out.println("点击了home_page_toolBar_icon");
+        switch (item.getItemId()){
+            case  R.id.home_page_toolBar_icon:
+                System.out.println("点击了home_page_toolBar_icon");
+                break;
+            case R.id.home_page_toolBar_icon2:
+                break;
+            default:
         }
         return true;
     }
-
 
     /**
      * 添加事件 add
