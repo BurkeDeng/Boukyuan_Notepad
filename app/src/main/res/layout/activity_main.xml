@@ -33,7 +33,8 @@
         android:layout_below="@id/home_page_toolBar"
         android:id="@+id/listView_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:divider="@null"/>
     <ImageButton
         android:id="@+id/home_page_button"
         android:layout_width="60dp"

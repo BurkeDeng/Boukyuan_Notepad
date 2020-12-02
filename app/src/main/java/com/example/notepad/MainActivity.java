@@ -10,12 +10,14 @@ import android.content.Intent;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.notepad.getdb.GetDBData;
 
@@ -26,6 +28,7 @@ import java.util.ArrayList;
  * @author boukyuan
  */
 public class MainActivity extends AppCompatActivity {
+    private long exitTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +47,14 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent=null;
         switch (item.getItemId()){
             case  R.id.home_page_toolBar_icon:
-                System.out.println("点击了home_page_toolBar_icon");
+                intent=new Intent(MainActivity.this,SetUpActivity.class);
+                startActivity(intent);
                 break;
             case R.id.home_page_toolBar_icon2:
-                Intent intent=new Intent(MainActivity.this,AboutWorksActivity.class);
+                 intent=new Intent(MainActivity.this,AboutWorksActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -117,5 +122,21 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("出错了" + e);
         }
         linearLayout.setVisibility(arrayLists.size() > 0 ? View.GONE : View.VISIBLE);
+    }
+
+    /**再按一次返回键退出程序*/
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

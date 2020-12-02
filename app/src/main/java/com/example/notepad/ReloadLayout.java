@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @author boukyuan
- * 封装 重新加载布局
+ * 封装 重新刷新加载布局
  */
 public class ReloadLayout extends AppCompatActivity {
     public void refresh() {

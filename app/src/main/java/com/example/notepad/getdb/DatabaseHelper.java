@@ -13,7 +13,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /** version数据库版本号    name：数据库名称    factory:一个可选的游标工厂（通常是 Null） */
         super(context, name, factory, version);
     }
-
     /**
      * 复写onCreate（）
      * 调用时刻：当数据库第1次创建时调用
@@ -26,7 +25,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //创建数据库1张表
         // 通过execSQL()执行SQL语句（此处创建1名为notepad的表）使用AUTOINCREMENT关键字的自动增加
         String surface = "CREATE TABLE notepad (id INTEGER PRIMARY KEY AUTOINCREMENT,text  VARCHAR (1024),title VARCHAR (1024));";
-
         db.execSQL(surface);
         // 注：数据库实际上是没被创建 / 打开的（因该方法还没调用）
         // 直到getWritableDatabase() / getReadableDatabase() 第一次被调用时才会进行创建 / 打开
